@@ -11,25 +11,28 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include "game.h"
+#include "ui.h"
+
 
 //Table of values
-#define WIDTH       900.0
-#define HEIGHT      600.0
-#define LENGTH      20
+#define SCREEN_WIDTH       900.0
+#define SCREEN_HEIGHT      600.0
+#define TRAJECTORY_LENGTH      20
 #define WHITE       0xffffffff
-#define WIN_COLOR   0x00000011
+#define WINDOW_COLOR   0x00000011
 
 
 /*Type definitions:*/
 
 //Struct for circle generation
-typedef struct Circle{
+typedef struct Ball{
     double x;
     double y;
     double radius;
     double v_x;
     double v_y;
-} Circle;
+} Ball;
 
 
 //Struct for racket generation
@@ -51,25 +54,25 @@ Uint32 g_trajectory_colors[] = {
 //Function for generating the table details
 void fill_table(SDL_Surface *surface) {
     //Faixa central:
-    SDL_Rect central_limit = (SDL_Rect) {(WIDTH/2), 0, 1, HEIGHT};
+    SDL_Rect central_limit = (SDL_Rect) {(SCREEN_WIDTH/2), 0, 1, SCREEN_HEIGHT};
     SDL_FillRect(surface, &central_limit, WHITE);
 
     //Faixa lateral direita:
-    SDL_Rect right_limit = (SDL_Rect) {(WIDTH-1), 0, 1, HEIGHT};
+    SDL_Rect right_limit = (SDL_Rect) {(SCREEN_WIDTH-1), 0, 1, SCREEN_HEIGHT};
     SDL_FillRect(surface, &right_limit, WHITE);
 
     //Faixa superior:
-    SDL_Rect upper_limit = (SDL_Rect) {0, 0, WIDTH, 1};
+    SDL_Rect upper_limit = (SDL_Rect) {0, 0, SCREEN_WIDTH, 1};
     SDL_FillRect(surface, &upper_limit, WHITE);
 
     //Faixa inferior :
-    SDL_Rect lower_limit = (SDL_Rect) {0, (HEIGHT-1), WIDTH, 1};
+    SDL_Rect lower_limit = (SDL_Rect) {0, (SCREEN_HEIGHT-1), SCREEN_WIDTH, 1};
     SDL_FillRect(surface, &lower_limit, WHITE);
 }
 
 
 //Generates the ball
-void fill_ball(SDL_Surface *surface, Circle circle, int color) {
+void fill_ball(SDL_Surface *surface, Ball circle, int color) {
     double low_x = circle.x - circle.radius;
     double low_y = circle.y - circle.radius;
     double high_x = circle.x + circle.radius;
@@ -99,7 +102,7 @@ void fill_racket(SDL_Surface *surface, Racket racket) {
 
 
 //Generates the trajectory for the ball
-void fill_trajectory(SDL_Surface *surface, Circle trajectory[LENGTH], int current_trajectory_index) {
+void fill_trajectory(SDL_Surface *surface, Ball trajectory[TRAJECTORY_LENGTH], int current_trajectory_index) {
     for(int i=0; i<current_trajectory_index; i++) {
         trajectory[i].radius = i;
         fill_ball(surface, trajectory[i], g_trajectory_colors[i]);
@@ -108,15 +111,15 @@ void fill_trajectory(SDL_Surface *surface, Circle trajectory[LENGTH], int curren
 
 
 //Updates each part of the trajectory accorging to the position of the ball
-void update_trajectory(Circle trajectory[LENGTH], struct Circle circle, int current_index) {
-    if(current_index >= LENGTH) {
+void update_trajectory(Ball trajectory[TRAJECTORY_LENGTH], struct Ball circle, int current_index) {
+    if(current_index >= TRAJECTORY_LENGTH) {
         //shift array - write the circle at the end of the array
-        Circle trajectory_copy[LENGTH];
-        for(int i=0; i<LENGTH; i++) {
-            if(i > 0 && i < LENGTH)
+        Ball trajectory_copy[TRAJECTORY_LENGTH];
+        for(int i=0; i<TRAJECTORY_LENGTH; i++) {
+            if(i > 0 && i < TRAJECTORY_LENGTH)
                 trajectory_copy[i] = trajectory[i+1];
         }
-        for(int i=0; i<LENGTH; i++) {
+        for(int i=0; i<TRAJECTORY_LENGTH; i++) {
             trajectory[i] = trajectory_copy[i];
         }
         trajectory[current_index] = circle;
@@ -128,14 +131,14 @@ void update_trajectory(Circle trajectory[LENGTH], struct Circle circle, int curr
 
 
 //Defines how the ball will interact with the environment
-void game_physics(Circle *circle, Racket *racket) {
+void game_physics(Ball *circle, Racket *racket) {
     //How do we calculate the new position?
     circle->x += circle->v_x;
     circle->y += circle->v_y;
 
     //Y axis:
-    if( (circle->y + circle->radius) > HEIGHT ) {
-        circle->y = HEIGHT - circle->radius;
+    if( (circle->y + circle->radius) > SCREEN_HEIGHT ) {
+        circle->y = SCREEN_HEIGHT - circle->radius;
         if(circle->v_y>0) circle->v_y+=0.1; else circle->v_y-=0.1;
         circle->v_y = -(circle->v_y);
     }
@@ -145,8 +148,8 @@ void game_physics(Circle *circle, Racket *racket) {
         circle->v_y = -(circle->v_y);
     }
     //X axis:
-    if( (circle->x + circle->radius) > WIDTH ) {
-        circle->x = WIDTH - circle->radius;
+    if( (circle->x + circle->radius) > SCREEN_WIDTH ) {
+        circle->x = SCREEN_WIDTH - circle->radius;
         if(circle->v_x>0) circle->v_x+=0.1; else circle->v_x-=0.1;
         circle->v_x = -(circle->v_x);
     }
@@ -167,7 +170,7 @@ int main(void)
 {
     srand(time(NULL));
     SDL_Init(SDL_INIT_VIDEO);
-    SDL_Window *window = SDL_CreateWindow("Pong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, SDL_WINDOW_BORDERLESS);
+    SDL_Window *window = SDL_CreateWindow("Pong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_BORDERLESS);
     SDL_Surface *surface = SDL_GetWindowSurface(window);
 
     if(surface == NULL) {
@@ -179,12 +182,12 @@ int main(void)
     double random_vel = 1;
     if(random_num == 1 || random_num == -1) random_vel = random_num;
 
-    Circle ball = {(WIDTH / 2), (HEIGHT / 2), 20, 5, random_vel};
-    Circle trajectory[LENGTH];
-    Racket racket = (Racket) {(HEIGHT / 2) - 50, 1000.0};
+    Ball ball = {(SCREEN_WIDTH / 2), (SCREEN_HEIGHT / 2), 20, 5, random_vel};
+    Ball trajectory[TRAJECTORY_LENGTH];
+    Racket racket = (Racket) {(SCREEN_HEIGHT / 2) - 50, 1000.0};
     int trajectory_entry_count = 0;
 
-    SDL_Rect erase_rect = (SDL_Rect) {0, 0, WIDTH, HEIGHT};
+    SDL_Rect erase_rect = (SDL_Rect) {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
     SDL_Event event;
     int simulation_running = 1;
 
@@ -215,10 +218,10 @@ int main(void)
 
         //Ensures the racket stays within the screen boundaries
         if(racket.racket_pos < 0) racket.racket_pos = 0;
-        if(racket.racket_pos + 100 > HEIGHT) racket.racket_pos = HEIGHT - 100;
+        if(racket.racket_pos + 100 > SCREEN_HEIGHT) racket.racket_pos = SCREEN_HEIGHT - 100;
 
         //Filling the screen and the functions
-        SDL_FillRect(surface, &erase_rect, WIN_COLOR);
+        SDL_FillRect(surface, &erase_rect, WINDOW_COLOR);
         fill_trajectory(surface, trajectory, trajectory_entry_count);
         fill_ball(surface, ball, WHITE);
         fill_table(surface);
@@ -231,7 +234,7 @@ int main(void)
         game_physics(&ball, &racket);
         update_trajectory(trajectory, ball, trajectory_entry_count);
 
-        if(trajectory_entry_count < LENGTH) ++trajectory_entry_count;
+        if(trajectory_entry_count < TRAJECTORY_LENGTH) ++trajectory_entry_count;
     }
 
     SDL_Quit();
