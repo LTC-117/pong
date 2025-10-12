@@ -6,6 +6,7 @@
 #include <SDL2/SDL_surface.h>
 #include <SDL2/SDL_timer.h>
 #include <SDL2/SDL_video.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -39,7 +40,7 @@ typedef struct Racket{
 
 
 //Trajectory color colection
-Uint32 g_colors[] = {
+Uint32 g_trajectory_colors[] = {
     0xFF0000,0xFF1400,0xFF1E00,0xFF2300,0xFF2800,0xFF2D00,
     0xFF3200,0xFF4600,0xFF5000,0xFF5500,0xFF5A00,0xFF5F00,
     0xFF9600,0xFFAA00,0xFFB400,0xFFB900,0xFFBE00,0xFFC300,
@@ -48,7 +49,7 @@ Uint32 g_colors[] = {
 
 
 //Function for generating the table details
-void FillTable(SDL_Surface *surface) {
+void fill_table(SDL_Surface *surface) {
     //Faixa central:
     SDL_Rect central_limit = (SDL_Rect) {(WIDTH/2), 0, 1, HEIGHT};
     SDL_FillRect(surface, &central_limit, WHITE);
@@ -68,7 +69,7 @@ void FillTable(SDL_Surface *surface) {
 
 
 //Generates the ball
-void FillBall(SDL_Surface *surface, Circle circle, int color) {
+void fill_ball(SDL_Surface *surface, Circle circle, int color) {
     double low_x = circle.x - circle.radius;
     double low_y = circle.y - circle.radius;
     double high_x = circle.x + circle.radius;
@@ -90,7 +91,7 @@ void FillBall(SDL_Surface *surface, Circle circle, int color) {
 
 
 //Generates the playing bar
-void FillRacket(SDL_Surface *surface, Racket racket) {
+void fill_racket(SDL_Surface *surface, Racket racket) {
     // Preencher o racket na nova posição
     SDL_Rect real_racket = (SDL_Rect) {0, racket.racket_pos, 30, 100};
     SDL_FillRect(surface, &real_racket, WHITE);
@@ -98,16 +99,16 @@ void FillRacket(SDL_Surface *surface, Racket racket) {
 
 
 //Generates the trajectory for the ball
-void FillTrajectory(SDL_Surface *surface, Circle trajectory[LENGTH], int current_trajectory_index) {
+void fill_trajectory(SDL_Surface *surface, Circle trajectory[LENGTH], int current_trajectory_index) {
     for(int i=0; i<current_trajectory_index; i++) {
         trajectory[i].radius = i;
-        FillBall(surface, trajectory[i], g_colors[i]);
+        fill_ball(surface, trajectory[i], g_trajectory_colors[i]);
     }
 }
 
 
 //Updates each part of the trajectory accorging to the position of the ball
-void UpdateTrajectory(Circle trajectory[LENGTH], struct Circle circle, int current_index) {
+void update_trajectory(Circle trajectory[LENGTH], struct Circle circle, int current_index) {
     if(current_index >= LENGTH) {
         //shift array - write the circle at the end of the array
         Circle trajectory_copy[LENGTH];
@@ -127,7 +128,7 @@ void UpdateTrajectory(Circle trajectory[LENGTH], struct Circle circle, int curre
 
 
 //Defines how the ball will interact with the environment
-void GamePhysics(Circle *circle, Racket *racket) {
+void game_physics(Circle *circle, Racket *racket) {
     //How do we calculate the new position?
     circle->x += circle->v_x;
     circle->y += circle->v_y;
@@ -162,13 +163,14 @@ void GamePhysics(Circle *circle, Racket *racket) {
 
 
 //Main function
-int main() {
+int main(void)
+{
     srand(time(NULL));
     SDL_Init(SDL_INIT_VIDEO);
     SDL_Window *window = SDL_CreateWindow("Pong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, SDL_WINDOW_BORDERLESS);
     SDL_Surface *surface = SDL_GetWindowSurface(window);
 
-    if (surface == NULL) {
+    if(surface == NULL) {
         printf("ERROR!!!");
     }
 
@@ -189,15 +191,15 @@ int main() {
     //Variable to atualize the position of the racket
     Uint32 last_time = SDL_GetTicks();  //Controls time variation
 
-    while (simulation_running != 0) {
+    while(simulation_running != 0) {
         Uint32 current_time = SDL_GetTicks();
         double delta_time = (current_time - last_time) / 1000.0;  // Time (in seconds)
         last_time = current_time;
 
         // Polling of events
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_KEYDOWN) {
-                if (event.key.keysym.sym == SDLK_SPACE) {
+        while(SDL_PollEvent(&event)) {
+            if(event.type == SDL_KEYDOWN) {
+                if(event.key.keysym.sym == SDLK_SPACE) {
                     simulation_running = 0;
                 }
             }
@@ -217,19 +219,19 @@ int main() {
 
         //Filling the screen and the functions
         SDL_FillRect(surface, &erase_rect, WIN_COLOR);
-        FillTrajectory(surface, trajectory, trajectory_entry_count);
-        FillBall(surface, ball, WHITE);
-        FillTable(surface);
-        FillRacket(surface, racket);
+        fill_trajectory(surface, trajectory, trajectory_entry_count);
+        fill_ball(surface, ball, WHITE);
+        fill_table(surface);
+        fill_racket(surface, racket);
 
         //Updates the window
         SDL_UpdateWindowSurface(window);
         SDL_Delay(1);  //Adjusts the delay if needed to control the FPS
 
-        GamePhysics(&ball, &racket);
-        UpdateTrajectory(trajectory, ball, trajectory_entry_count);
+        game_physics(&ball, &racket);
+        update_trajectory(trajectory, ball, trajectory_entry_count);
 
-        if (trajectory_entry_count < LENGTH) ++trajectory_entry_count;
+        if(trajectory_entry_count < LENGTH) ++trajectory_entry_count;
     }
 
     SDL_Quit();
