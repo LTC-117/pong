@@ -5,12 +5,18 @@ project(pong VERSION 1.0 LANGUAGES C)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-set(SRC_DIR src)
+set(SRC_DIR
+    src
+)
 set(INC_DIR inc)
 set(BUILD_DIR build)
 
-file(GLOB SOURCES ${SRC_DIR}/*.c)
-file(GLOB HEADERS ${INC_DIR}/*.h)
+file(GLOB SOURCES 
+    ${SRC_DIR}/*.c
+    ${SRC_DIR}/game/*.c
+    ${SRC_DIR}/ui/*.c
+)
+#file(GLOB HEADERS ${INC_DIR}/*.h)
 
 find_package(SDL2 REQUIRED)
 
