@@ -1,6 +1,7 @@
 #include "game.h"
 #include "ui.h"
 
+
 // TODO: Implement new features and formats for racket
 
 
@@ -11,5 +12,3 @@ void fill_racket(SDL_Surface *surface, Racket racket)
     SDL_Rect real_racket = (SDL_Rect) {0, racket.racket_pos, 30, 100};
     SDL_FillRect(surface, &real_racket, WHITE);
 }
-
-
