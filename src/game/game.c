@@ -1,11 +1,7 @@
 #include "game.h"
 
 #include "ui.h"
-
-void game_init(void)
-{
-
-}
+#include <stdio.h>
 
 
 WindowState game_run(SDL_Surface *surface, Ball *ball, Ball *trajectory, Racket *racket, int *trajectory_entry_count, uint32_t *last_time)
@@ -26,15 +22,15 @@ WindowState game_run(SDL_Surface *surface, Ball *ball, Ball *trajectory, Racket 
     if(racket->racket_pos < 0) racket->racket_pos = 0;
     if(racket->racket_pos + 100 > SCREEN_HEIGHT) racket->racket_pos = SCREEN_HEIGHT - 100;
 
-    ball_trajectory_fill(surface, &trajectory, *trajectory_entry_count);
-    ball_fill(surface, ball, WHITE);
+    ball_trajectory_fill(surface, trajectory, *trajectory_entry_count);
+    ball_fill(surface, *ball, WHITE);
     table_create(surface);
     racket_create(surface, racket);
 
     ball_physics(ball, racket);
-    ball_trajectory_update(&trajectory, *ball, *trajectory_entry_count);
+    ball_trajectory_update(trajectory, *ball, *trajectory_entry_count);
 
-    if(*trajectory_entry_count < TRAJECTORY_LENGTH) ++trajectory_entry_count;
+    if(*trajectory_entry_count < TRAJECTORY_LENGTH) (*trajectory_entry_count) += 1;
 
     return WINDOW_GAME;
 }

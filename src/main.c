@@ -89,7 +89,7 @@ int main(void)
 //            ball_trajectory_fill(surface, trajectory, trajectory_entry_count);
 //            ball_fill(surface, ball, WHITE);
 //            table_create(surface);
-//            racket_create(surface, racket);
+//            racket_create(surface, &racket);
 //
 //            ball_physics(&ball, &racket);
 //            ball_trajectory_update(trajectory, ball, trajectory_entry_count);

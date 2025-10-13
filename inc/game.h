@@ -45,9 +45,9 @@ static uint32_t g_trajectory_colors[] = {
 
 
 // Ball
-void ball_fill(SDL_Surface *surface, Ball *ball, int color);
-void ball_trajectory_fill(SDL_Surface *surface, Ball *trajectory[TRAJECTORY_LENGTH], int current_trajectory_index);
-void ball_trajectory_update(Ball *trajectory[TRAJECTORY_LENGTH], struct Ball ball, int current_index);
+void ball_fill(SDL_Surface *surface, Ball ball, int color);
+void ball_trajectory_fill(SDL_Surface *surface, Ball trajectory[TRAJECTORY_LENGTH], int current_trajectory_index);
+void ball_trajectory_update(Ball trajectory[TRAJECTORY_LENGTH], struct Ball ball, int current_index);
 void ball_physics(Ball *ball, Racket *racket);
 
 

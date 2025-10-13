@@ -6,19 +6,19 @@
 
 
 //Generates the ball
-void ball_fill(SDL_Surface *surface, Ball *ball, int color)
+void ball_fill(SDL_Surface *surface, Ball ball, int color)
 {
-    double low_x = ball->x - ball->radius;
-    double low_y = ball->y - ball->radius;
-    double high_x = ball->x + ball->radius;
-    double high_y = ball->y + ball->radius;
+    double low_x = ball.x - ball.radius;
+    double low_y = ball.y - ball.radius;
+    double high_x = ball.x + ball.radius;
+    double high_y = ball.y + ball.radius;
 
-    double radius_squared = ball->radius * ball->radius;
+    double radius_squared = ball.radius * ball.radius;
 
     for(double x = low_x; x < high_x; x++) {
         for(double y = low_y; y < high_y; y++) {
             //Is coordinate within ball?
-            double center_distance = (x - ball->x)*(x - ball->x) + (y - ball->y)*(y - ball->y);
+            double center_distance = (x - ball.x)*(x - ball.x) + (y - ball.y)*(y - ball.y);
             if(center_distance < radius_squared) {
                 SDL_Rect pixel = (SDL_Rect) {x, y, 1, 1};
                 SDL_FillRect(surface, &pixel, color);
@@ -29,32 +29,32 @@ void ball_fill(SDL_Surface *surface, Ball *ball, int color)
 
 
 //Generates the trajectory for the ball
-void ball_trajectory_fill(SDL_Surface *surface, Ball *trajectory[TRAJECTORY_LENGTH], int current_trajectory_index)
+void ball_trajectory_fill(SDL_Surface *surface, Ball trajectory[TRAJECTORY_LENGTH], int current_trajectory_index)
 {
     for(int i = 0; i < current_trajectory_index; i++) {
-        trajectory[i]->radius = i;
+        trajectory[i].radius = i;
         ball_fill(surface, trajectory[i], g_trajectory_colors[i]);
     }
 }
 
 
 //Updates each part of the trajectory according to the position of the ball
-void ball_trajectory_update(Ball *trajectory[TRAJECTORY_LENGTH], struct Ball ball, int current_index)
+void ball_trajectory_update(Ball trajectory[TRAJECTORY_LENGTH], struct Ball ball, int current_index)
 {
     if(current_index >= TRAJECTORY_LENGTH) {
         //shift array - write the ball at the end of the array
         Ball trajectory_copy[TRAJECTORY_LENGTH];
         for(int i = 0; i < TRAJECTORY_LENGTH; i++) {
-            if(i > 0 && i < TRAJECTORY_LENGTH)
-                trajectory_copy[i] = *trajectory[i + 1];
+            if(i > 0 && i <= TRAJECTORY_LENGTH)
+                trajectory_copy[i] = trajectory[i + 1];
         }
         for(int i = 0; i < TRAJECTORY_LENGTH; i++) {
-            *trajectory[i] = trajectory_copy[i];
+            trajectory[i] = trajectory_copy[i];
         }
-        *trajectory[current_index] = ball;
+        trajectory[current_index] = ball;
     }
     else{
-        *trajectory[current_index] = ball;
+        trajectory[current_index] = ball;
     }
 }
 
