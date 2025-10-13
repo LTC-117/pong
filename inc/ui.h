@@ -16,7 +16,7 @@ typedef enum {
     WINDOW_MENU,
     WINDOW_GAME,
     WINDOW_PAUSE
-} SwitchWindows;
+} WindowState;
 
 
 #endif

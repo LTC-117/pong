@@ -13,6 +13,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include "ui.h"
 
 #define TRAJECTORY_LENGTH      20
 
@@ -57,5 +58,7 @@ void table_create(SDL_Surface *surface);
 // Racket
 void racket_create(SDL_Surface *surface, Racket racket);
 
+// Run the game
+WindowState game_run(SDL_Surface *surface, Ball ball, Ball *trajectory, Racket racket, int trajectory_entry_count, uint32_t last_time);
 
 #endif
