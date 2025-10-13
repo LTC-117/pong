@@ -27,7 +27,7 @@ WindowState game_run(SDL_Surface *surface, Ball *ball, Ball *trajectory, Racket 
     if(racket->racket_pos + 100 > SCREEN_HEIGHT) racket->racket_pos = SCREEN_HEIGHT - 100;
 
     ball_trajectory_fill(surface, trajectory, trajectory_entry_count);
-    ball_fill(surface, &ball, WHITE);
+    ball_fill(surface, ball, WHITE);
     table_create(surface);
     racket_create(surface, racket);
 
