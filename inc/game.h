@@ -45,10 +45,10 @@ static uint32_t g_trajectory_colors[] = {
 
 
 // Ball
-void ball_fill(SDL_Surface *surface, Ball circle, int color);
-void ball_trajectory_fill(SDL_Surface *surface, Ball trajectory[TRAJECTORY_LENGTH], int current_trajectory_index);
-void ball_trajectory_update(Ball trajectory[TRAJECTORY_LENGTH], struct Ball circle, int current_index);
-void ball_physics(Ball *circle, Racket *racket);
+void ball_fill(SDL_Surface *surface, Ball *ball, int color);
+void ball_trajectory_fill(SDL_Surface *surface, Ball *trajectory[TRAJECTORY_LENGTH], int current_trajectory_index);
+void ball_trajectory_update(Ball *trajectory[TRAJECTORY_LENGTH], struct Ball ball, int current_index);
+void ball_physics(Ball *ball, Racket *racket);
 
 
 // Table
@@ -56,9 +56,9 @@ void table_create(SDL_Surface *surface);
 
 
 // Racket
-void racket_create(SDL_Surface *surface, Racket racket);
+void racket_create(SDL_Surface *surface, Racket *racket);
 
 // Run the game
-WindowState game_run(SDL_Surface *surface, Ball ball, Ball *trajectory, Racket racket, int trajectory_entry_count, uint32_t last_time);
+WindowState game_run(SDL_Surface *surface, Ball *ball, Ball *trajectory, Racket *racket, int *trajectory_entry_count, uint32_t *last_time);
 
 #endif

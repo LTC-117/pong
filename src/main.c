@@ -62,7 +62,7 @@ int main(void)
                 case WINDOW_MENU:
                     break;
                 case WINDOW_GAME:
-                    current_window = game_run(surface, ball, trajectory, racket, trajectory_entry_count, last_time);
+                    current_window = game_run(surface, &ball, trajectory, &racket, &trajectory_entry_count, &last_time);
                     break;
                 case WINDOW_PAUSE:
                     break;
