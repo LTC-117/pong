@@ -6,7 +6,7 @@
 
 
 //Generates the playing bar (racket)
-void fill_racket(SDL_Surface *surface, Racket racket)
+void racket_create(SDL_Surface *surface, Racket racket)
 {
     // Preencher o racket na nova posição
     SDL_Rect real_racket = (SDL_Rect) {0, racket.racket_pos, 30, 100};

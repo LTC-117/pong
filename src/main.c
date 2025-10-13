@@ -42,10 +42,10 @@ int main(void)
     int simulation_running = 1;
 
     //Variable to atualize the position of the racket
-    Uint32 last_time = SDL_GetTicks();  //Controls time variation
+    uint32_t last_time = SDL_GetTicks();  //Controls time variation
 
     while(simulation_running != 0) {
-        Uint32 current_time = SDL_GetTicks();
+        uint32_t current_time = SDL_GetTicks();
         double delta_time = (current_time - last_time) / 1000.0;  // Time (in seconds)
         last_time = current_time;
 
@@ -72,19 +72,21 @@ int main(void)
 
         //Filling the screen and the functions
         SDL_FillRect(surface, &erase_rect, WINDOW_COLOR);
-        ball_trajectory_fill(surface, trajectory, trajectory_entry_count);
-        ball_fill(surface, ball, WHITE);
-        fill_table(surface);
-        fill_racket(surface, racket);
+        {
+            ball_trajectory_fill(surface, trajectory, trajectory_entry_count);
+            ball_fill(surface, ball, WHITE);
+            table_create(surface);
+            racket_create(surface, racket);
 
-        //Updates the window
-        SDL_UpdateWindowSurface(window);
-        SDL_Delay(1);  //Adjusts the delay if needed to control the FPS
+            ball_physics(&ball, &racket);
+            ball_trajectory_update(trajectory, ball, trajectory_entry_count);
 
-        ball_physics(&ball, &racket);
-        ball_trajectory_update(trajectory, ball, trajectory_entry_count);
+            if(trajectory_entry_count < TRAJECTORY_LENGTH) ++trajectory_entry_count;
 
-        if(trajectory_entry_count < TRAJECTORY_LENGTH) ++trajectory_entry_count;
+            //Updates the window
+            SDL_UpdateWindowSurface(window);
+            SDL_Delay(1);  //Adjusts the delay if needed to control the FPS
+        }
     }
 
     SDL_Quit();

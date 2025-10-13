@@ -51,11 +51,11 @@ void ball_physics(Ball *circle, Racket *racket);
 
 
 // Table
-void fill_table(SDL_Surface *surface);
+void table_create(SDL_Surface *surface);
 
 
 // Racket
-void fill_racket(SDL_Surface *surface, Racket racket);
+void racket_create(SDL_Surface *surface, Racket racket);
 
 
 #endif

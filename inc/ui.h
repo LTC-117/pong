@@ -12,4 +12,11 @@
 #define WHITE       0xffffffff
 
 
+typedef enum {
+    WINDOW_MENU,
+    WINDOW_GAME,
+    WINDOW_PAUSE
+} SwitchWindows;
+
+
 #endif

@@ -3,7 +3,7 @@
 
 
 //Function for generating the table details
-void fill_table(SDL_Surface *surface)
+void table_create(SDL_Surface *surface)
 {
     //Faixa central:
     SDL_Rect central_limit = (SDL_Rect) {(SCREEN_WIDTH / 2), 0, 1, SCREEN_HEIGHT};
