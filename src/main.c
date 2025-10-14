@@ -58,7 +58,8 @@ int main(void)
 
         SDL_FillRect(surface, &erase_rect, WINDOW_COLOR);
         {
-            switch(current_window) {
+            switch(current_window)
+            {
                 case WINDOW_MENU:
                     break;
                 case WINDOW_GAME:
