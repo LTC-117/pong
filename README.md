@@ -3,13 +3,11 @@
 ---
 
 ## Implementation of a pong-like game using SDL2.
-<p align="left">
-TODO:<br>
-· New game modes.<br>
-· New ball, racket and table designs.<br>
-· Main menu with various options and features, including configurations.<br>
-· Pause menu.<br>
-</p>
+### TODO LIST:
+#### · New game modes.
+#### · New ball, racket and table designs.
+#### · Main menu with various options and features, including configurations.
+#### · Pause menu.
 
 ---
 
