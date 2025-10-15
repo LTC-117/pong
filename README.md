@@ -10,6 +10,7 @@
 #### · New ball, racket and table designs.
 #### · Main menu with various options and features, including configurations.
 #### · Pause menu.
+#### · Add ball spin effects through racket movements.
 
 ---
 
