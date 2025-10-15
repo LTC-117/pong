@@ -1,4 +1,4 @@
-[![MasterHead](https://github.com/LTC-117/pong/blob/main/resources/pong-banner.png)]
+![MasterHead](https://github.com/LTC-117/pong/blob/main/resources/pong-banner.png)
 
 ---
 
