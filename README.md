@@ -1,5 +1,7 @@
 ![MasterHead](https://github.com/LTC-117/pong/blob/main/resources/pong-banner.png)
 
+# PONG
+
 ---
 
 ## Implementation of a pong-like game using SDL2.
