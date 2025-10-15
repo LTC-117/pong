@@ -24,7 +24,7 @@ int main(void)
     SDL_Surface *surface = SDL_GetWindowSurface(window);
 
     if(surface == NULL) {
-        printf("ERROR!!!");
+        printf("ERROR!!!\n");
     }
 
     //Generates the initial v_y for the ball
