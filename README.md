@@ -1,8 +1,7 @@
-# Pong
+[![MasterHead]()]
 
 ---
 
-![alt text](https://github.com/LTC-117/pong/blob/main/resources/pong.png)
 
 ---
 
