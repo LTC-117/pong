@@ -2,8 +2,8 @@
 
 ---
 
-<p align="center" style="color: navy; text-indent: 40px; text-transform: uppercase;">
-Implementation of a pong-like game using SDL2. <br>
+# Implementation of a pong-like game using SDL2.\
+<p align="left">
 TODO:<br>
 · New game modes.<br>
 · New ball, racket and table designs.<br>
