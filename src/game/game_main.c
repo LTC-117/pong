@@ -11,16 +11,16 @@ WindowState game_run(SDL_Surface *surface, Ball *ball, Ball *trajectory, Racket 
     *last_time = current_time;
 
     //Racket movement based on time
-    if(SDL_GetKeyboardState(NULL)[SDL_SCANCODE_J]) {
+    if (SDL_GetKeyboardState(NULL)[SDL_SCANCODE_J]) {
         racket->racket_pos += racket->racket_speed * delta_time;  //Moves down
     }
-    if(SDL_GetKeyboardState(NULL)[SDL_SCANCODE_K]) {
+    if (SDL_GetKeyboardState(NULL)[SDL_SCANCODE_K]) {
         racket->racket_pos -= racket->racket_speed * delta_time;  //Moves up
     }
 
     //Ensures the racket stays within the screen boundaries
-    if(racket->racket_pos < 0) racket->racket_pos = 0;
-    if(racket->racket_pos + 100 > SCREEN_HEIGHT) racket->racket_pos = SCREEN_HEIGHT - 100;
+    if (racket->racket_pos < 0) racket->racket_pos = 0;
+    if (racket->racket_pos + 100 > SCREEN_HEIGHT) racket->racket_pos = SCREEN_HEIGHT - 100;
 
     ball_trajectory_fill(surface, trajectory, *trajectory_entry_count);
     ball_fill(surface, *ball, WHITE);
@@ -30,10 +30,10 @@ WindowState game_run(SDL_Surface *surface, Ball *ball, Ball *trajectory, Racket 
     ball_physics(ball, racket);
     ball_trajectory_update(trajectory, *ball, *trajectory_entry_count);
 
-    if(*trajectory_entry_count < TRAJECTORY_LENGTH) (*trajectory_entry_count) += 1;
+    if (*trajectory_entry_count < TRAJECTORY_LENGTH) (*trajectory_entry_count) += 1;
 
     // TODO: integrate pause option
-//    if(pause) {
+//    if (pause) {
 //        return WINDOW_PAUSE;
 //    }
 //    else {

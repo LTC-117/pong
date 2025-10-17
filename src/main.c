@@ -22,14 +22,14 @@ int main(void)
     SDL_Window *window = SDL_CreateWindow("Pong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_BORDERLESS);
     SDL_Surface *surface = SDL_GetWindowSurface(window);
 
-    if(surface == NULL) {
+    if (surface == NULL) {
         printf("ERROR!!!\n");
     }
 
     //Generates the initial v_y for the ball
     double random_num = (rand() % 3) - 1;
     double random_vel = 1;
-    if(random_num == 1 || random_num == -1) random_vel = random_num;
+    if (random_num == 1 || random_num == -1) random_vel = random_num;
 
     Ball ball = {(SCREEN_WIDTH / 2), (SCREEN_HEIGHT / 2), 20, 5, random_vel};
     Ball trajectory[TRAJECTORY_LENGTH];
@@ -45,11 +45,11 @@ int main(void)
 
     WindowState current_window = WINDOW_GAME;
 
-    while(simulation_running != 0) {
+    while (simulation_running != 0) {
         // Polling of events
-        while(SDL_PollEvent(&event)) {
-            if(event.type == SDL_KEYDOWN) {
-                if(event.key.keysym.sym == SDLK_SPACE) {
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_KEYDOWN) {
+                if (event.key.keysym.sym == SDLK_SPACE) {
                     simulation_running = 0;
                 }
             }
@@ -57,8 +57,7 @@ int main(void)
 
         SDL_FillRect(surface, &erase_rect, WINDOW_COLOR);
         {
-            switch(current_window)
-            {
+            switch (current_window) {
                 case WINDOW_MENU:
                     break;
                 case WINDOW_GAME:
