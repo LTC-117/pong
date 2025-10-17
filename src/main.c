@@ -15,7 +15,6 @@
 #include "ui.h"
 
 
-//Main function
 int main(void)
 {
     srand(time(NULL));
@@ -73,11 +72,10 @@ int main(void)
 
             //Updates the window
             SDL_UpdateWindowSurface(window);
-            SDL_Delay(1);  //Adjusts the delay if needed to control the FPS
+            SDL_Delay(1);  //Adjusts the delay (if needed) to control the FPS
         }
     }
 
     SDL_Quit();
     return 0;
 }
-
