@@ -32,5 +32,10 @@ WindowState game_run(SDL_Surface *surface, Ball *ball, Ball *trajectory, Racket 
 
     if(*trajectory_entry_count < TRAJECTORY_LENGTH) (*trajectory_entry_count) += 1;
 
-    return WINDOW_GAME;
+    if(pause) {
+        return WINDOW_PAUSE;
+    }
+    else {
+        return WINDOW_GAME;
+    }
 }
