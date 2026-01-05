@@ -56,10 +56,8 @@ int main(void)
     while (simulation_running != 0) {
         // Polling of events
         while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_KEYDOWN) {
-                if (event.key.keysym.sym == SDLK_SPACE) {
-                    simulation_running = 0;
-                }
+            if (event.type == SDL_QUIT) {
+                simulation_running = 0;
             }
         }
 
