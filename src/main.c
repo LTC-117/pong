@@ -19,7 +19,15 @@ int main(void)
 {
     srand(time(NULL));
     SDL_Init(SDL_INIT_VIDEO);
-    SDL_Window *window = SDL_CreateWindow("Pong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_BORDERLESS);
+    SDL_Window *window = SDL_CreateWindow(
+        "Pong",
+        SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED,
+        SCREEN_WIDTH,
+        SCREEN_HEIGHT,
+        SDL_WINDOW_BORDERLESS
+    );
+
     SDL_Surface *surface = SDL_GetWindowSurface(window);
 
     if (surface == NULL) {
